@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .cart{
+            height: auto;
+            width: 200px;
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid gray;
+            border-radius: 10px;
+            box-shadow: 2px 2px 8px gray;
+        }
+        #card{
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+           
+        }
+    </style>
+</head>
+<body>
+    <h1>Fetch Data</h1>
+    <div id="card">
+
+    </div>
+    <script>
+        let card=document.getElementById("card")
+
+        function showData(carts){
+           for(let i of carts){
+            let div=document.createElement("div")
+            div.classList.add("cart")
+            card.appendChild(div)
+
+            let h1=document.createElement("h1")
+            h1.textContent=i.id
+            div.appendChild(h1)
+            
+            let ul=document.createElement("ul")
+            div.appendChild(ul)
+
+            for(let product of i.products){
+                let li=document.createElement("li")
+                li.textContent=product.title
+                ul.appendChild(li)
+
+                let img=document.createElement("img")
+                img.src=product.thumnail
+                div.appendChild(img)
+            }
+           }
+        }
+
+        let url='https://dummyjson.com/carts'
+        let option={
+            method:"GET"
+        }
+        fetch(url,option).then(function(data){
+            return data.json()
+        }).then(function(data){
+            showData(data.carts)
+        }).catch(function(err){
+            console.log("err:",err)
+        })
+    </script>
+</body>
+</html>
